@@ -1,6 +1,7 @@
 import Category from '../../types/category'
 import { FunctionComponent } from 'react'
-import './categoryItem.css'
+
+import { CategoryItemContainer, CategoryName } from './categoryItemStyle'
 
 interface categoryItemProps {
   category: Category
@@ -8,12 +9,12 @@ interface categoryItemProps {
 
 const CategoryItem: FunctionComponent<categoryItemProps> = ({ category }) => {
   return (
-    <div className="category-item-container">
-      <div className="category-name">
+    <CategoryItemContainer>
+      <CategoryName>
         <p>{category.displayName}</p>
         <p>Explorar</p>
-      </div>
-    </div>
+      </CategoryName>
+    </CategoryItemContainer>
   )
 }
 

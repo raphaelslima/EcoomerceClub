@@ -2,18 +2,23 @@ import './categories.css'
 
 import categoriesMock from '../../mock/categories'
 import CategoryItem from '../categoryItem/CategoryItemComponent'
+import {
+  CategoriesContainer,
+  CategoriesContent,
+  CategoryItemList
+} from './categoriesStyle'
 
 const Categories = () => {
   return (
-    <div className="categories-container">
-      <div className="categories-content">
+    <CategoriesContainer>
+      <CategoriesContent>
         {categoriesMock.map((category) => (
-          <div key={category.id}>
+          <CategoryItemList key={category.id}>
             <CategoryItem category={category} />
-          </div>
+          </CategoryItemList>
         ))}
-      </div>
-    </div>
+      </CategoriesContent>
+    </CategoriesContainer>
   )
 }
 

@@ -1,5 +1,3 @@
-import './categories.css'
-
 import categoriesMock from '../../mock/categories'
 import CategoryItem from '../categoryItem/CategoryItemComponent'
 import {

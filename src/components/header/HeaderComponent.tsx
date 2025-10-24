@@ -6,14 +6,21 @@ import {
   HeaderItems,
   HeaderTitle
 } from './headerStyle'
+import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
+  const navigate = useNavigate()
+
+  const handleNavigateLoginPage = () => {
+    navigate('/login')
+  }
+
   return (
     <HeaderContainer>
       <HeaderTitle>CLUB CLOTHING</HeaderTitle>
       <HeaderItems>
         <HeaderItem>Explorar</HeaderItem>
-        <HeaderItem>Login</HeaderItem>
+        <HeaderItem onClick={handleNavigateLoginPage}>Login</HeaderItem>
         <HeaderItem>Criar conta</HeaderItem>
         <HeaderItem>
           <BsCart3 size={25} />

@@ -15,14 +15,19 @@ import {
 import CustomInputComponent from '../../components/customInput/CustomInputComponent'
 import InputErrorMsgComponent from '../../components/inputErrorMsg/InputErrorMsgComponent'
 
+interface loginForm {
+  email: string
+  password: string
+}
+
 const LoginPage = () => {
   const {
     register,
     formState: { errors },
     handleSubmit
-  } = useForm()
+  } = useForm<loginForm>()
 
-  const handleSubmitPress = (data: any) => {
+  const handleSubmitPress = (data: loginForm) => {
     console.log(data)
   }
 
@@ -65,6 +70,7 @@ const LoginPage = () => {
           <LoginInputContainer>
             <p>Senha</p>
             <CustomInputComponent
+              type="password"
               hasError={!!errors?.password}
               placeholder="Digite sua senha"
               {...register('password', {

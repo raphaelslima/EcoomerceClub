@@ -15,13 +15,17 @@ const Header = () => {
     navigate('/login')
   }
 
+  const handlenavidateSingupPage = () => {
+    navigate('/singup')
+  }
+
   return (
     <HeaderContainer>
       <HeaderTitle>CLUB CLOTHING</HeaderTitle>
       <HeaderItems>
         <HeaderItem>Explorar</HeaderItem>
         <HeaderItem onClick={handleNavigateLoginPage}>Login</HeaderItem>
-        <HeaderItem>Criar conta</HeaderItem>
+        <HeaderItem onClick={handlenavidateSingupPage}>Criar conta</HeaderItem>
         <HeaderItem>
           <BsCart3 size={25} />
           <p style={{ marginLeft: 5 }}>5</p>

@@ -1,11 +1,12 @@
 import React, { FunctionComponent, ButtonHTMLAttributes } from 'react'
 import { CustomButtonContainer, IconContainer } from './customButtonStyle'
 
-interface CustomButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface CustomButtonComponentProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
   startIcon?: React.ReactNode
 }
 
-const CustomButton: FunctionComponent<CustomButtonProps> = ({
+const CustomButtonComponent: FunctionComponent<CustomButtonComponentProps> = ({
   children,
   startIcon,
   ...rest
@@ -20,4 +21,4 @@ const CustomButton: FunctionComponent<CustomButtonProps> = ({
   )
 }
 
-export default CustomButton
+export default CustomButtonComponent

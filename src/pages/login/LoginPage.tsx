@@ -24,9 +24,11 @@ const LoginPage = () => {
           </CustomButtonComponent>
           <LoginSubtitle>Ou entre com seu email</LoginSubtitle>
           <LoginInputContainer>
+            <p>Email</p>
             <CustomInputComponent placeholder="Digite seu email" />
           </LoginInputContainer>
           <LoginInputContainer>
+            <p>Senha</p>
             <CustomInputComponent placeholder="Digite sua senha" />
           </LoginInputContainer>
           <CustomButtonComponent startIcon={<FiLogIn size={18} />}>

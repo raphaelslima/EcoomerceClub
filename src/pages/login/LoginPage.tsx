@@ -1,3 +1,5 @@
+import { BsGoogle } from 'react-icons/bs'
+import CustomButton from '../../components/customButton/CustomButtonComponent'
 import Header from '../../components/header/HeaderComponent'
 import {
   LoginContainer,
@@ -15,6 +17,9 @@ const LoginPage = () => {
       <LoginContainer>
         <LoginContent>
           <LoginHeadline>Entre com sua conta</LoginHeadline>
+          <CustomButton startIcon={<BsGoogle size={18} />}>
+            Entrar com o Google
+          </CustomButton>
           <LoginSubtitle>Ou entre com seu email</LoginSubtitle>
           <LoginInputContainer></LoginInputContainer>
           <LoginInputContainer></LoginInputContainer>

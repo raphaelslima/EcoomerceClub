@@ -1,13 +1,16 @@
 import styled from 'styled-components'
 
-export const CategoryItemContainer = styled.div`
+interface CategoryItemContainerProps {
+  backgroundImage: string
+}
+
+export const CategoryItemContainer = styled.div<CategoryItemContainerProps>`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100%;
-  background-color: red;
-  gap: 15px; /* grid-gap virou gap */
+  grid-gap: 15px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -15,6 +18,7 @@ export const CategoryItemContainer = styled.div`
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
   background-color: rgba(0, 0, 0, 0.3);
   background-blend-mode: color;
+  background-image: ${(props) => `url('${props.backgroundImage}')`};
 `
 
 export const CategoryName = styled.div`

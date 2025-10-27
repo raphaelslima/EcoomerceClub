@@ -1,5 +1,6 @@
 import { FiLogIn } from 'react-icons/fi'
 import validator from 'validator'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
 import CustomButtonComponent from '../../components/customButton/CustomButtonComponent'
 import CustomInputComponent from '../../components/customInput/CustomInputComponent'
 import Header from '../../components/header/HeaderComponent'
@@ -11,6 +12,8 @@ import {
 } from './singupStyle'
 import { useForm } from 'react-hook-form'
 import InputErrorMsgComponent from '../../components/inputErrorMsg/InputErrorMsgComponent'
+import { auth, db } from '../../config/firebaseConfig'
+import { addDoc, collection } from 'firebase/firestore'
 
 interface SingupForm {
   fisrtName: string
@@ -28,8 +31,23 @@ const SingupPage = () => {
     handleSubmit
   } = useForm<SingupForm>()
 
-  const handleSubmitPress = (data: SingupForm) => {
-    console.log(data)
+  const handleSubmitPress = async (data: SingupForm) => {
+    try {
+      const userCredentials = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      )
+
+      await addDoc(collection(db, 'users'), {
+        id: userCredentials.user.uid,
+        firstName: data.fisrtName,
+        lastName: data.lastName,
+        email: userCredentials.user.email
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const watchPassword = watch('password')

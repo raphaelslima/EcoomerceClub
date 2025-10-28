@@ -1,6 +1,10 @@
 import { FiLogIn } from 'react-icons/fi'
 import validator from 'validator'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import {
+  AuthError,
+  AuthErrorCodes,
+  createUserWithEmailAndPassword
+} from 'firebase/auth'
 import CustomButtonComponent from '../../components/customButton/CustomButtonComponent'
 import CustomInputComponent from '../../components/customInput/CustomInputComponent'
 import Header from '../../components/header/HeaderComponent'
@@ -28,6 +32,7 @@ const SingupPage = () => {
     register,
     watch,
     formState: { errors },
+    setError,
     handleSubmit
   } = useForm<SingupForm>()
 
@@ -46,7 +51,13 @@ const SingupPage = () => {
         email: userCredentials.user.email
       })
     } catch (error) {
-      console.log(error)
+      const _error = error as AuthError
+
+      if (_error.code === AuthErrorCodes.EMAIL_EXISTS) {
+        return setError('email', {
+          type: 'alreadyInUse'
+        })
+      }
     }
   }
 
@@ -117,6 +128,10 @@ const SingupPage = () => {
                 Digite um email válido
               </InputErrorMsgComponent>
             )}
+
+            {errors?.email?.type === 'alreadyInUse' && (
+              <InputErrorMsgComponent>Email já existe</InputErrorMsgComponent>
+            )}
           </SignUpInputContainer>
 
           <SignUpInputContainer>
@@ -126,13 +141,20 @@ const SingupPage = () => {
               placeholder="Digite sua senha"
               type="password"
               {...register('password', {
-                required: true
+                required: true,
+                minLength: 4
               })}
             />
 
             {errors?.password?.type === 'required' && (
               <InputErrorMsgComponent>
                 A senha é obrigatório
+              </InputErrorMsgComponent>
+            )}
+
+            {errors?.password?.type === 'minLength' && (
+              <InputErrorMsgComponent>
+                A senha precisa ter mais de 3 caracteres
               </InputErrorMsgComponent>
             )}
           </SignUpInputContainer>
@@ -145,6 +167,7 @@ const SingupPage = () => {
               type="password"
               {...register('passwordConfirm', {
                 required: true,
+                minLength: 4,
                 validate: (value) => {
                   return value === watchPassword
                 }
@@ -160,6 +183,12 @@ const SingupPage = () => {
             {errors?.passwordConfirm?.type === 'validate' && (
               <InputErrorMsgComponent>
                 Senhas não conferem
+              </InputErrorMsgComponent>
+            )}
+
+            {errors?.passwordConfirm?.type === 'minLength' && (
+              <InputErrorMsgComponent>
+                A senha precisa ter mais de 3 caracteres
               </InputErrorMsgComponent>
             )}
           </SignUpInputContainer>

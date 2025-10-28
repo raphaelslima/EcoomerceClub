@@ -14,6 +14,8 @@ import {
 } from './login'
 import CustomInputComponent from '../../components/customInput/CustomInputComponent'
 import InputErrorMsgComponent from '../../components/inputErrorMsg/InputErrorMsgComponent'
+import { AuthError, signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../../config/firebaseConfig'
 
 interface loginForm {
   email: string
@@ -24,11 +26,33 @@ const LoginPage = () => {
   const {
     register,
     formState: { errors },
-    handleSubmit
+    handleSubmit,
+    setError
   } = useForm<loginForm>()
 
-  const handleSubmitPress = (data: loginForm) => {
-    console.log(data)
+  const handleSubmitPress = async (data: loginForm) => {
+    try {
+      const userCredentials = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      )
+      console.log(userCredentials)
+    } catch (error) {
+      const _error = error as AuthError
+      console.log('Firebase error code:', _error.code)
+
+      if (_error.code === 'auth/invalid-login-credentials') {
+        setError('email', {
+          type: 'invalidCredentials'
+        })
+        setError('password', {
+          type: 'invalidCredentials'
+        })
+
+        return 0
+      }
+    }
   }
 
   return (
@@ -66,6 +90,12 @@ const LoginPage = () => {
                 Digite um email válido
               </InputErrorMsgComponent>
             )}
+
+            {errors?.email?.type === 'invalidCredentials' && (
+              <InputErrorMsgComponent>
+                A email ou senha estão incorretos
+              </InputErrorMsgComponent>
+            )}
           </LoginInputContainer>
           <LoginInputContainer>
             <p>Senha</p>
@@ -81,6 +111,12 @@ const LoginPage = () => {
             {errors?.password?.type === 'required' && (
               <InputErrorMsgComponent>
                 A senha é obrigatória
+              </InputErrorMsgComponent>
+            )}
+
+            {errors?.password?.type === 'invalidCredentials' && (
+              <InputErrorMsgComponent>
+                A email ou senha estão incorretos
               </InputErrorMsgComponent>
             )}
           </LoginInputContainer>

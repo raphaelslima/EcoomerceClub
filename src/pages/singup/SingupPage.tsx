@@ -48,7 +48,8 @@ const SingupPage = () => {
         id: userCredentials.user.uid,
         firstName: data.fisrtName,
         lastName: data.lastName,
-        email: userCredentials.user.email
+        email: userCredentials.user.email,
+        provider: 'firebase'
       })
     } catch (error) {
       const _error = error as AuthError

@@ -14,8 +14,13 @@ import {
 } from './login'
 import CustomInputComponent from '../../components/customInput/CustomInputComponent'
 import InputErrorMsgComponent from '../../components/inputErrorMsg/InputErrorMsgComponent'
-import { AuthError, signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../../config/firebaseConfig'
+import {
+  AuthError,
+  signInWithEmailAndPassword,
+  signInWithPopup
+} from 'firebase/auth'
+import { auth, db, googleProvider } from '../../config/firebaseConfig'
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore'
 
 interface loginForm {
   email: string
@@ -55,6 +60,35 @@ const LoginPage = () => {
     }
   }
 
+  const handleSignWithGooglePress = async () => {
+    try {
+      const userCredentials = await signInWithPopup(auth, googleProvider)
+
+      const querySnapshot = await getDocs(
+        query(
+          collection(db, 'users'),
+          where('id', '==', userCredentials.user.uid)
+        )
+      )
+
+      const user = querySnapshot.docs[0]?.data()
+      if (!user) {
+        const firstname = userCredentials?.user?.displayName?.split(' ')[0]
+        const lastname = userCredentials?.user?.displayName?.split(' ')[1]
+
+        await addDoc(collection(db, 'users'), {
+          id: userCredentials.user.uid,
+          firstName: firstname,
+          lastName: lastname,
+          email: userCredentials.user.email,
+          provider: 'google'
+        })
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <>
       <Header />
@@ -62,7 +96,9 @@ const LoginPage = () => {
       <LoginContainer>
         <LoginContent>
           <LoginHeadline>Entre com sua conta</LoginHeadline>
-          <CustomButtonComponent startIcon={<BsGoogle size={18} />}>
+          <CustomButtonComponent
+            startIcon={<BsGoogle size={18} />}
+            onClick={handleSignWithGooglePress}>
             Entrar com o Google
           </CustomButtonComponent>
           <LoginSubtitle>Ou entre com seu email</LoginSubtitle>

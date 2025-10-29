@@ -5,12 +5,15 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import UserContextProvider from './contexts/userContext'
+import CategoryContextProvider from './contexts/categoryContext'
 // @ts-ignore
 
 ReactDOM.render(
   <React.StrictMode>
     <UserContextProvider>
-      <App />
+      <CategoryContextProvider>
+        <App />
+      </CategoryContextProvider>
     </UserContextProvider>
   </React.StrictMode>,
   document.getElementById('root')

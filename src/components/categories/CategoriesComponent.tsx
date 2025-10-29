@@ -1,37 +1,24 @@
 import CategoryItem from '../categoryItem/CategoryItemComponent'
-import { getDocs, collection } from 'firebase/firestore'
+
 import {
   CategoriesContainer,
   CategoriesContent,
   CategoryItemList
 } from './categoriesStyle'
-import { db } from '../../config/firebaseConfig'
-import { useEffect, useState } from 'react'
-import Category from '../../types/category'
-import { categoryConvert } from '../../converter/firebaseConvert'
+
+import { useContext, useEffect } from 'react'
+
+import { categoryContext } from '../../contexts/categoryContext'
+import LoadingComponent from '../loading/LoadingComponent'
 
 const Categories = () => {
-  const [categories, setCategories] = useState<Category[]>([])
-
-  const fetchCategories = async () => {
-    try {
-      const categoriesFromFirestore: Category[] = []
-      const querySnapshot = await getDocs(
-        collection(db, 'categories').withConverter(categoryConvert)
-      )
-      querySnapshot.forEach((doc) => {
-        categoriesFromFirestore.push(doc.data())
-      })
-
-      setCategories(categoriesFromFirestore)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  const { categories, fetchCategories, isLoading } = useContext(categoryContext)
 
   useEffect(() => {
     fetchCategories()
   }, [])
+
+  if (isLoading) return <LoadingComponent />
 
   return (
     <CategoriesContainer>

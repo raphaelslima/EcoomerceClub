@@ -18,6 +18,9 @@ import { useForm } from 'react-hook-form'
 import InputErrorMsgComponent from '../../components/inputErrorMsg/InputErrorMsgComponent'
 import { auth, db } from '../../config/firebaseConfig'
 import { addDoc, collection } from 'firebase/firestore'
+import { useContext, useEffect } from 'react'
+import { UserContext } from '../../contexts/userContext'
+import { useNavigate } from 'react-router-dom'
 
 interface SingupForm {
   fisrtName: string
@@ -28,6 +31,10 @@ interface SingupForm {
 }
 
 const SingupPage = () => {
+  const { isAuthentication } = useContext(UserContext)
+
+  const navigate = useNavigate()
+
   const {
     register,
     watch,
@@ -63,6 +70,12 @@ const SingupPage = () => {
   }
 
   const watchPassword = watch('password')
+
+  useEffect(() => {
+    if (isAuthentication) {
+      navigate('/')
+    }
+  }, [isAuthentication])
 
   return (
     <>

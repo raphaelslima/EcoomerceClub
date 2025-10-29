@@ -18,9 +18,10 @@ import { useForm } from 'react-hook-form'
 import InputErrorMsgComponent from '../../components/inputErrorMsg/InputErrorMsgComponent'
 import { auth, db } from '../../config/firebaseConfig'
 import { addDoc, collection } from 'firebase/firestore'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../contexts/userContext'
 import { useNavigate } from 'react-router-dom'
+import LoadingComponent from '../../components/loading/LoadingComponent'
 
 interface SingupForm {
   fisrtName: string
@@ -32,6 +33,7 @@ interface SingupForm {
 
 const SingupPage = () => {
   const { isAuthentication } = useContext(UserContext)
+  const [isLoading, setIsloading] = useState(false)
 
   const navigate = useNavigate()
 
@@ -45,6 +47,7 @@ const SingupPage = () => {
 
   const handleSubmitPress = async (data: SingupForm) => {
     try {
+      setIsloading(true)
       const userCredentials = await createUserWithEmailAndPassword(
         auth,
         data.email,
@@ -58,6 +61,7 @@ const SingupPage = () => {
         email: userCredentials.user.email,
         provider: 'firebase'
       })
+      setIsloading(false)
     } catch (error) {
       const _error = error as AuthError
 
@@ -66,6 +70,7 @@ const SingupPage = () => {
           type: 'alreadyInUse'
         })
       }
+      setIsloading(false)
     }
   }
 
@@ -80,6 +85,9 @@ const SingupPage = () => {
   return (
     <>
       <Header />
+
+      {isLoading && <LoadingComponent />}
+
       <SignUpContainer>
         <SignUpContent>
           <SignUpHeadline>Crie sua conta</SignUpHeadline>

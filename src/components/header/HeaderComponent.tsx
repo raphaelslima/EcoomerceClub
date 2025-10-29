@@ -17,6 +17,10 @@ const Header = () => {
 
   const { isAuthentication } = useContext(UserContext)
 
+  const handleNavigateHomePage = () => {
+    navigate('/')
+  }
+
   const handleNavigateLoginPage = () => {
     navigate('/login')
   }
@@ -27,7 +31,7 @@ const Header = () => {
 
   return (
     <HeaderContainer>
-      <HeaderTitle>CLUB CLOTHING</HeaderTitle>
+      <HeaderTitle onClick={handleNavigateHomePage}>CLUB CLOTHING</HeaderTitle>
       <HeaderItems>
         <HeaderItem>Explorar</HeaderItem>
         {!isAuthentication && (

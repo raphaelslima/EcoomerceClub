@@ -11,6 +11,7 @@ import { userConvert } from './converter/firebaseConvert'
 import LoadingComponent from './components/loading/LoadingComponent'
 import ExplorePage from './pages/explore/ExplorePage'
 import CategoryDetailsPage from './pages/categoryDetails/categoryDetailsPage'
+import CartComponent from './components/cart/CartComponent'
 
 const App = () => {
   const [isInitialized, setIsInitialized] = useState(true)
@@ -49,6 +50,8 @@ const App = () => {
         <Route path="/explorer" element={<ExplorePage />} />
         <Route path="/category/:id" element={<CategoryDetailsPage />} />
       </Routes>
+
+      <CartComponent />
     </BrowserRouter>
   )
 }

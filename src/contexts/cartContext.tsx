@@ -8,6 +8,8 @@ interface ICartContext {
   products: CartProduct[]
   addProductToCart: (product: Product) => void
   removeProductFromCart: (productId: string) => void
+  increaseProductQtd: (productId: string) => void
+  decreaseProductQtd: (productId: string) => void
 }
 
 export const CartContext = createContext<ICartContext>({
@@ -15,7 +17,9 @@ export const CartContext = createContext<ICartContext>({
   toggleCart: () => {},
   products: [],
   addProductToCart: (product: Product) => {},
-  removeProductFromCart: (productId: string) => {}
+  removeProductFromCart: (productId: string) => {},
+  increaseProductQtd: (productId: string) => {},
+  decreaseProductQtd: (productId: string) => {}
 })
 
 const CartContextProvider: FunctionComponent = ({ children }) => {
@@ -25,6 +29,26 @@ const CartContextProvider: FunctionComponent = ({ children }) => {
   const removeProductFromCart = (productId: string) => {
     setProducts((products) =>
       products.filter((product) => product.id !== productId)
+    )
+  }
+
+  const increaseProductQtd = (productId: string) => {
+    return setProducts((products) =>
+      products.map((item) =>
+        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    )
+  }
+
+  const decreaseProductQtd = (productId: string) => {
+    return setProducts((products) =>
+      products
+        .map((item) =>
+          item.id === productId
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        )
+        .filter((product) => product.quantity > 0)
     )
   }
 
@@ -55,7 +79,9 @@ const CartContextProvider: FunctionComponent = ({ children }) => {
         products,
         toggleCart,
         addProductToCart,
-        removeProductFromCart
+        removeProductFromCart,
+        increaseProductQtd,
+        decreaseProductQtd
       }}>
       {children}
     </CartContext.Provider>

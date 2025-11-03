@@ -9,9 +9,10 @@ import {
 import CustomButtonComponent from '../customButton/CustomButtonComponent'
 import { BsCartCheck } from 'react-icons/bs'
 import { CartContext } from '../../contexts/cartContext'
+import CartItemComponent from '../cartItem/CartItemComponent'
 
 const CartComponent: FunctionComponent = () => {
-  const { isVisible, toggleCart } = useContext(CartContext)
+  const { isVisible, toggleCart, products } = useContext(CartContext)
 
   return (
     <>
@@ -19,7 +20,11 @@ const CartComponent: FunctionComponent = () => {
         <CartEscapeArea onClick={toggleCart} />
         <CartContent>
           <CartTitle>Seu Carrinho</CartTitle>
-          {/* Produtos */}
+
+          {products.map((product) => (
+            <CartItemComponent key={product.id} product={product} />
+          ))}
+
           <CartTotal>Total: R$ 100,00</CartTotal>
           <CustomButtonComponent startIcon={<BsCartCheck />}>
             {' '}

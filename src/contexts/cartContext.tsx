@@ -21,6 +21,18 @@ const CartContextProvider: FunctionComponent = ({ children }) => {
   const [products, setProducts] = useState<CartProduct[]>([])
 
   const addProductToCart = (product: Product) => {
+    const productAlreadyInCart = products.some((item) => item.id === product.id)
+
+    if (productAlreadyInCart) {
+      return setProducts((products) =>
+        products.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
+      )
+    }
+
     setProducts((prevSTate) => [...prevSTate, { ...product, quantity: 1 }])
   }
 

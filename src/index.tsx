@@ -6,13 +6,16 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import UserContextProvider from './contexts/userContext'
 import CategoryContextProvider from './contexts/categoryContext'
+import CartContextProvider from './contexts/cartContext'
 // @ts-ignore
 
 ReactDOM.render(
   <React.StrictMode>
     <UserContextProvider>
       <CategoryContextProvider>
-        <App />
+        <CartContextProvider>
+          <App />
+        </CartContextProvider>
       </CategoryContextProvider>
     </UserContextProvider>
   </React.StrictMode>,

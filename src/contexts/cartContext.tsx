@@ -7,18 +7,26 @@ interface ICartContext {
   toggleCart: () => void
   products: CartProduct[]
   addProductToCart: (product: Product) => void
+  removeProductFromCart: (productId: string) => void
 }
 
 export const CartContext = createContext<ICartContext>({
   isVisible: false,
   toggleCart: () => {},
   products: [],
-  addProductToCart: (product: Product) => {}
+  addProductToCart: (product: Product) => {},
+  removeProductFromCart: (productId: string) => {}
 })
 
 const CartContextProvider: FunctionComponent = ({ children }) => {
   const [isVisible, setIsVisible] = useState(false)
   const [products, setProducts] = useState<CartProduct[]>([])
+
+  const removeProductFromCart = (productId: string) => {
+    setProducts((products) =>
+      products.filter((product) => product.id !== productId)
+    )
+  }
 
   const addProductToCart = (product: Product) => {
     const productAlreadyInCart = products.some((item) => item.id === product.id)
@@ -42,7 +50,13 @@ const CartContextProvider: FunctionComponent = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ isVisible, products, toggleCart, addProductToCart }}>
+      value={{
+        isVisible,
+        products,
+        toggleCart,
+        addProductToCart,
+        removeProductFromCart
+      }}>
       {children}
     </CartContext.Provider>
   )

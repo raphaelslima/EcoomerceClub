@@ -1,5 +1,11 @@
 import CartProduct from '../types/cartProduct'
-import { FunctionComponent, useState, createContext, useMemo } from 'react'
+import {
+  FunctionComponent,
+  useState,
+  createContext,
+  useMemo,
+  useEffect
+} from 'react'
 import Product from '../types/product'
 
 interface ICartContext {
@@ -29,6 +35,18 @@ export const CartContext = createContext<ICartContext>({
 const CartContextProvider: FunctionComponent = ({ children }) => {
   const [isVisible, setIsVisible] = useState(false)
   const [products, setProducts] = useState<CartProduct[]>([])
+
+  useEffect(() => {
+    const productsFromLocalStorage = JSON.parse(
+      localStorage.getItem('cartProducts')!
+    )
+
+    setProducts(productsFromLocalStorage)
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('cartProducts', JSON.stringify(products))
+  }, [products])
 
   const removeProductFromCart = (productId: string) => {
     setProducts((products) =>

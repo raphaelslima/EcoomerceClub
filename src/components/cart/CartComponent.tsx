@@ -12,7 +12,8 @@ import { CartContext } from '../../contexts/cartContext'
 import CartItemComponent from '../cartItem/CartItemComponent'
 
 const CartComponent: FunctionComponent = () => {
-  const { isVisible, toggleCart, products } = useContext(CartContext)
+  const { isVisible, toggleCart, products, productsTotalPrice } =
+    useContext(CartContext)
 
   return (
     <>
@@ -25,7 +26,7 @@ const CartComponent: FunctionComponent = () => {
             <CartItemComponent key={product.id} product={product} />
           ))}
 
-          <CartTotal>Total: R$ 100,00</CartTotal>
+          <CartTotal>Total: R$ {productsTotalPrice}</CartTotal>
           <CustomButtonComponent startIcon={<BsCartCheck />}>
             {' '}
             Ir parao checkout

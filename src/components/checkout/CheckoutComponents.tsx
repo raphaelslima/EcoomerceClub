@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext } from 'react'
+import { FunctionComponent, useContext, useState } from 'react'
 import { CartContext } from '../../contexts/cartContext'
 import {
   CheckoutContainer,
@@ -10,12 +10,15 @@ import CustomButtonComponent from '../customButton/CustomButtonComponent'
 import { BsBagCheck } from 'react-icons/bs'
 import CartItemComponent from '../cartItem/CartItemComponent'
 import axios from 'axios'
+import LoadingComponent from '../loading/LoadingComponent'
 
 const CheckoutComponent: FunctionComponent = () => {
   const { products, productsTotalPrice } = useContext(CartContext)
+  const [isLoading, setIsloading] = useState<Boolean>(false)
 
   const handleFinishPurchaseClick = async () => {
     try {
+      setIsloading(true)
       const { data } = await axios.post(
         `${process.env.REACT_APP_API_URL}/create-checkout-session`,
         {
@@ -24,10 +27,14 @@ const CheckoutComponent: FunctionComponent = () => {
       )
 
       window.location.href = data.url
+      setIsloading(false)
     } catch (error) {
       console.log(error)
+      setIsloading(false)
     }
   }
+
+  if (isLoading) return <LoadingComponent />
 
   return (
     <>

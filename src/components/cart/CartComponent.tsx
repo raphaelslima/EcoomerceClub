@@ -10,10 +10,18 @@ import CustomButtonComponent from '../customButton/CustomButtonComponent'
 import { BsCartCheck } from 'react-icons/bs'
 import { CartContext } from '../../contexts/cartContext'
 import CartItemComponent from '../cartItem/CartItemComponent'
+import { useNavigate } from 'react-router-dom'
 
 const CartComponent: FunctionComponent = () => {
   const { isVisible, toggleCart, products, productsTotalPrice, productsCount } =
     useContext(CartContext)
+
+  const navigate = useNavigate()
+
+  const handleNavigateToCheckoutPage = () => {
+    navigate('/checkout')
+    toggleCart()
+  }
 
   return (
     <>
@@ -34,7 +42,9 @@ const CartComponent: FunctionComponent = () => {
             <CartTotal>Total: R$ {productsTotalPrice}</CartTotal>
           )}
           {productsCount > 0 && (
-            <CustomButtonComponent startIcon={<BsCartCheck />}>
+            <CustomButtonComponent
+              startIcon={<BsCartCheck />}
+              onClick={handleNavigateToCheckoutPage}>
               {' '}
               Ir parao checkout
             </CustomButtonComponent>

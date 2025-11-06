@@ -13,6 +13,7 @@ import ExplorePage from './pages/explore/ExplorePage'
 import CategoryDetailsPage from './pages/categoryDetails/categoryDetailsPage'
 import CartComponent from './components/cart/CartComponent'
 import CheckoutPage from './pages/checkout/CheckoutPage'
+import CheckAuthentication from './components/checkAuthentication/CheckAuthenticationComponent'
 
 const App = () => {
   const [isInitialized, setIsInitialized] = useState(true)
@@ -50,7 +51,14 @@ const App = () => {
         <Route path="/singup" element={<SingupPage />} />
         <Route path="/explorer" element={<ExplorePage />} />
         <Route path="/category/:id" element={<CategoryDetailsPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route
+          path="/checkout"
+          element={
+            <CheckAuthentication>
+              <CheckoutPage />
+            </CheckAuthentication>
+          }
+        />
       </Routes>
 
       <CartComponent />

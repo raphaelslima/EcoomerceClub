@@ -14,7 +14,7 @@ const CheckAuthentication: FunctionComponent = ({ children }) => {
         navigate('/login')
       }, 3000)
     }
-  }, [])
+  }, [isAuthentication])
 
   if (!isAuthentication) {
     return (
